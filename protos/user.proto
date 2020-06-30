@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package user;
+
+service User {
+	
+    rpc SignUp(UserRequest) returns (UserReply) {}
+
+    rpc SignIn(UserRequest) returns (UserReply) {}
+}
+
+message UserRequest {
+    string phone = 1;
+    string password = 2;
+    string device = 3;
+}
+
+message UserReply {
+    int32 status = 1;
+    string msg = 2;
+    Data data = 3;
+}
+
+message Data {
+    string token = 1;
+}
+
+

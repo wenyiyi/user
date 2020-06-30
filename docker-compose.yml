@@ -1,0 +1,33 @@
+version: '3'
+services:
+  ### user server container #########################################
+  server:
+      build: ./server
+      ports:
+        - "50051:50051"
+      depends_on:
+        - mysql
+      links:
+        #将当前容器连接到指定服务-指定服务名称:别名
+        - mysql:mymysql
+      restart: always
+      networks:
+        - default
+
+  ### Mysql container #########################################
+
+  mysql:
+      build: ./mysql
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      privileged: true
+      environment:
+        - MYSQL_DATABASE=user
+        - MYSQL_USER=root
+        - MYSQL_PASSWORD=123456
+        - MYSQL_ROOT_PASSWORD=123456
+      restart: always
+      networks:
+        - default

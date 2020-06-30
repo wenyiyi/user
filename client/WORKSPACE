@@ -1,0 +1,30 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    # 下载一个压缩格式的 Bazel 仓库，并解压出来，然后绑定使用。BUILD 文件根据 name 引用
+    name = "com_github_grpc_grpc",
+    urls = [
+        "https://github.com/grpc/grpc/archive/v1.30.0.tar.gz",
+    ],
+    # 用来消除前缀目录
+    strip_prefix = "grpc-1.30.0",
+)
+
+load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
+
+grpc_deps()
+
+http_archive(
+    name = "com_google_protobuf",
+    strip_prefix = "protobuf-3.12.3",
+    # Protocol Buffer 是一种轻便高效的结构化数据存储格式,可以用于结构化数据串行化,适用于RPC数据交换格式
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.12.3.tar.gz"],
+)
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "googletest",
+    remote = "https://github.com/google/googletest",
+    tag = "release-1.10.0",
+)
